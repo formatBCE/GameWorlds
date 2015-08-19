@@ -8,7 +8,7 @@ public class AvailableWorldModel {
     private String language;
     private String url;
     private String country;
-    private WorldStatus worldStatus;
+    private WorldStatusModel worldStatus;
     private String mapURL;
     private String name;
 
@@ -43,7 +43,7 @@ public class AvailableWorldModel {
     /**
      * @return The worldStatus
      */
-    public WorldStatus getWorldStatus() {
+    public WorldStatusModel getWorldStatus() {
         return worldStatus;
     }
 
