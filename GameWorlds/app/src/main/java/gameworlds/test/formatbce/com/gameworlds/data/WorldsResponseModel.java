@@ -2,15 +2,14 @@ package gameworlds.test.formatbce.com.gameworlds.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by amitn on 19.08.2015
  */
-public class WorldsResponse {
+public class WorldsResponseModel {
 
     private String serverVersion;
-    private List<AvailableWorld> allAvailableWorlds = new ArrayList<>();
+    private List<AvailableWorldModel> allAvailableWorlds = new ArrayList<>();
 
     /**
      *
@@ -26,7 +25,7 @@ public class WorldsResponse {
      * @return
      * The allAvailableWorlds
      */
-    public List<AvailableWorld> getAllAvailableWorlds() {
+    public List<AvailableWorldModel> getAllAvailableWorlds() {
         return allAvailableWorlds;
     }
 
