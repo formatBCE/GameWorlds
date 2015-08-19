@@ -26,7 +26,7 @@ public class CleanJsonConverter extends GsonConverter {
     @Override
     public Object fromBody(TypedInput body, Type type) throws ConversionException {
         String dirty = toString(body);
-        String clean = dirty.replace('(', '[').replace(')', ']').replace(';', ',').replace("\n", "").replace("\r", "").replace("\t", "").replace(" ", "").replace(",}", "}");
+        String clean = dirty.replace('(', '[').replace(')', ']').replace(';', ',').replace("\n", "").replace("\r", "").replace("\t", "").replace(",}", "}");
         Log.e("JSON", clean);
         body = new JsonTypedInput(clean.getBytes(Charset.forName("UTF-8")));
         return super.fromBody(body, type);
