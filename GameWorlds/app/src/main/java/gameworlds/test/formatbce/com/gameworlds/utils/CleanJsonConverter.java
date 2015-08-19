@@ -26,9 +26,18 @@ public class CleanJsonConverter extends GsonConverter {
     @Override
     public Object fromBody(TypedInput body, Type type) throws ConversionException {
         String dirty = toString(body);
-        String clean = dirty.replace('(', '[').replace(')', ']').replace(';', ',').replace("\n", "").replace("\r", "").replace("\t", "").replace(",}", "}");
-        Log.e("JSON", clean);
-        body = new JsonTypedInput(clean.getBytes(Charset.forName("UTF-8")));
+        Log.e("DIRTY", dirty);
+        String clean = dirty
+                .replace('(', '[')
+                .replace(')', ']')
+                .replace(';', ',')
+                .replace("\n", "")
+                .replace("\r", "")
+                .replace("\t", "")
+                .replace("\\U", "\\\\u")
+                .replace(",}", "}");
+        Log.e("CLEAN", clean);
+        body = new JsonTypedInput(clean.getBytes());
         return super.fromBody(body, type);
     }
 
@@ -37,7 +46,7 @@ public class CleanJsonConverter extends GsonConverter {
         StringBuilder sb = new StringBuilder();
         String line;
         try {
-            br = new BufferedReader(new InputStreamReader(body.in()));
+            br = new BufferedReader(new InputStreamReader(body.in(), Charset.forName("UTF-8")));
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }

@@ -36,7 +36,6 @@ public class WorldsListActivity extends ListActivity implements Callback<WorldsR
     private MaterialDialog mProgress;
     private final WorldsService mLoader = new RestAdapter.Builder()
             .setClient(new OkClient())
-            .setLogLevel(RestAdapter.LogLevel.FULL)
             .setConverter(new CleanJsonConverter(new GsonBuilder().create()))
             .setEndpoint(Constants.API_ROOT_URL)
             .build()

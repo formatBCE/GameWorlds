@@ -1,5 +1,8 @@
 package gameworlds.test.formatbce.com.gameworlds.data;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by amitn on 19.08.2015
  */
@@ -63,6 +66,19 @@ public class AvailableWorldModel {
 
     @Override
     public String toString() {
-        return name;
+        return removeUTFCharacters(name);
     }
+
+    public static String removeUTFCharacters(String data){
+        Pattern p = Pattern.compile("\\\\u(\\p{XDigit}{4})");
+        Matcher m = p.matcher(data);
+        StringBuffer buf = new StringBuffer(data.length());
+        while (m.find()) {
+            String ch = String.valueOf((char) Integer.parseInt(m.group(1), 16));
+            m.appendReplacement(buf, Matcher.quoteReplacement(ch));
+        }
+        m.appendTail(buf);
+        return buf.toString();
+    }
+
 }
