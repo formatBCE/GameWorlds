@@ -4,8 +4,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.apache.http.protocol.HTTP;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

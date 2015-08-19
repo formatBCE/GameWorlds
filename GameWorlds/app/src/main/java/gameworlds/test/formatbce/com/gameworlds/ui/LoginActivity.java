@@ -18,7 +18,9 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -36,14 +38,6 @@ import gameworlds.test.formatbce.com.gameworlds.R;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -141,7 +135,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 4;
+        return !TextUtils.isEmpty(password);
     }
 
     /**
@@ -221,7 +215,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
 
@@ -258,27 +251,24 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             } catch (InterruptedException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-            return false;
+            // TODO dummy result: just for test
+            return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             if (success) {
                 Intent i = new Intent(LoginActivity.this, WorldsListActivity.class);
                 i.putExtra(WorldsListActivity.EXTRA_LOGIN, mEmail);
                 i.putExtra(WorldsListActivity.EXTRA_PWD, mPassword);
                 LoginActivity.this.startActivity(i);
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                View currView = getCurrentFocus();
+                if (currView != null) {
+                    inputMethodManager.hideSoftInputFromWindow(currView.getWindowToken(), 0);
+                }
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
